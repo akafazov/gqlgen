@@ -2,6 +2,10 @@
 
 package model
 
+type Angel struct {
+	ID string `json:"id"`
+}
+
 type Meetup struct {
 	ID          string `json:"id"`
 	Name        string `json:"name"`
@@ -10,11 +14,4 @@ type Meetup struct {
 }
 
 type Query struct {
-}
-
-type User struct {
-	ID       string    `json:"id"`
-	Username string    `json:"username"`
-	Email    string    `json:"email"`
-	Meetups  []*Meetup `json:"meetups"`
 }

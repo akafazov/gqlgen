@@ -47,6 +47,10 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
+	Angel struct {
+		ID func(childComplexity int) int
+	}
+
 	Meetup struct {
 		Description func(childComplexity int) int
 		ID          func(childComplexity int) int
@@ -55,6 +59,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
+		Angels  func(childComplexity int) int
 		Meetups func(childComplexity int) int
 	}
 
@@ -71,6 +76,7 @@ type MeetupResolver interface {
 }
 type QueryResolver interface {
 	Meetups(ctx context.Context) ([]*model.Meetup, error)
+	Angels(ctx context.Context) ([]*model.Angel, error)
 }
 
 type executableSchema struct {
@@ -91,6 +97,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	ec := executionContext{nil, e, 0, 0, nil}
 	_ = ec
 	switch typeName + "." + field {
+
+	case "Angel.id":
+		if e.complexity.Angel.ID == nil {
+			break
+		}
+
+		return e.complexity.Angel.ID(childComplexity), true
 
 	case "Meetup.description":
 		if e.complexity.Meetup.Description == nil {
@@ -119,6 +132,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Meetup.User(childComplexity), true
+
+	case "Query.angels":
+		if e.complexity.Query.Angels == nil {
+			break
+		}
+
+		return e.complexity.Query.Angels(childComplexity), true
 
 	case "Query.meetups":
 		if e.complexity.Query.Meetups == nil {
@@ -243,7 +263,7 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 	return introspection.WrapTypeFromDef(ec.Schema(), ec.Schema().Types[name]), nil
 }
 
-//go:embed "schema.graphqls"
+//go:embed "schema.graphqls" "userschema.graphqls"
 var sourcesFS embed.FS
 
 func sourceData(filename string) string {
@@ -256,6 +276,7 @@ func sourceData(filename string) string {
 
 var sources = []*ast.Source{
 	{Name: "schema.graphqls", Input: sourceData("schema.graphqls"), BuiltIn: false},
+	{Name: "userschema.graphqls", Input: sourceData("userschema.graphqls"), BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
@@ -315,6 +336,50 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 // endregion ************************** directives.gotpl **************************
 
 // region    **************************** field.gotpl *****************************
+
+func (ec *executionContext) _Angel_id(ctx context.Context, field graphql.CollectedField, obj *model.Angel) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Angel_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNID2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Angel_id(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Angel",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
 
 func (ec *executionContext) _Meetup_id(ctx context.Context, field graphql.CollectedField, obj *model.Meetup) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Meetup_id(ctx, field)
@@ -551,6 +616,54 @@ func (ec *executionContext) fieldContext_Query_meetups(_ context.Context, field 
 				return ec.fieldContext_Meetup_user(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Meetup", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_angels(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_angels(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Angels(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Angel)
+	fc.Result = res
+	return ec.marshalNAngel2ᚕᚖgithubᚗcomᚋakafazovᚋgqlgenᚋgraphᚋmodelᚐAngelᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_angels(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Angel_id(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Angel", field.Name)
 		},
 	}
 	return fc, nil
@@ -2652,6 +2765,45 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 
 // region    **************************** object.gotpl ****************************
 
+var angelImplementors = []string{"Angel"}
+
+func (ec *executionContext) _Angel(ctx context.Context, sel ast.SelectionSet, obj *model.Angel) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, angelImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Angel")
+		case "id":
+			out.Values[i] = ec._Angel_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var meetupImplementors = []string{"Meetup"}
 
 func (ec *executionContext) _Meetup(ctx context.Context, sel ast.SelectionSet, obj *model.Meetup) graphql.Marshaler {
@@ -2766,6 +2918,28 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_meetups(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx,
+					func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return rrm(innerCtx) })
+		case "angels":
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_angels(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&fs.Invalids, 1)
 				}
@@ -3188,6 +3362,60 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) marshalNAngel2ᚕᚖgithubᚗcomᚋakafazovᚋgqlgenᚋgraphᚋmodelᚐAngelᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Angel) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNAngel2ᚖgithubᚗcomᚋakafazovᚋgqlgenᚋgraphᚋmodelᚐAngel(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNAngel2ᚖgithubᚗcomᚋakafazovᚋgqlgenᚋgraphᚋmodelᚐAngel(ctx context.Context, sel ast.SelectionSet, v *model.Angel) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Angel(ctx, sel, v)
+}
 
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)

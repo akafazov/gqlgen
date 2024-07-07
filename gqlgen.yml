@@ -89,3 +89,6 @@ models:
     fields:
       description:
         resolver: true
+  User:
+    model:
+      - github.com/akafazov/gqlgen/graph/model.User
