@@ -11,7 +11,35 @@ import (
 	"github.com/akafazov/gqlgen/graph/model"
 )
 
-// Angels is the resolver for the angels field.
-func (r *queryResolver) Angels(ctx context.Context) ([]*model.Angel, error) {
-	panic(fmt.Errorf("not implemented: Angels - angels"))
+var meetups = []*model.Meetup{
+	{
+		ID:          "1",
+		Name:        "meetup1",
+		Description: "description1",
+		User:        users[0],
+	},
+	{
+		ID:          "2",
+		Name:        "meetup2",
+		Description: "description2",
+		User:        users[1],
+	},
 }
+
+// Description is the resolver for the description field.
+func (r *meetupResolver) Description(ctx context.Context, obj *model.Meetup) (string, error) {
+	if obj == nil {
+		return "", fmt.Errorf("meetup is nil")
+	}
+	return obj.Description, nil
+}
+
+// Meetups is the resolver for the meetups field.
+func (r *queryResolver) Meetups(ctx context.Context) ([]*model.Meetup, error) {
+	return meetups, nil
+}
+
+// Meetup returns MeetupResolver implementation.
+func (r *Resolver) Meetup() MeetupResolver { return &meetupResolver{r} }
+
+type meetupResolver struct{ *Resolver }

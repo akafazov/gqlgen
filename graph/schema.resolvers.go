@@ -6,26 +6,31 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/akafazov/gqlgen/graph/model"
 )
 
-// Description is the resolver for the description field.
-func (r *meetupResolver) Description(ctx context.Context, obj *model.Meetup) (string, error) {
-	panic(fmt.Errorf("not implemented: Description - description"))
+var users = []*model.User{
+	{
+		ID:       "1",
+		Username: "user1",
+		Email:    "user1@gmail.com",
+		Meetups:  []*model.Meetup{},
+	},
+	{
+		ID:       "2",
+		Username: "user2",
+		Email:    "user2@gmail.com",
+		Meetups:  []*model.Meetup{},
+	},
 }
 
-// Meetups is the resolver for the meetups field.
-func (r *queryResolver) Meetups(ctx context.Context) ([]*model.Meetup, error) {
-	panic(fmt.Errorf("not implemented: Meetups - meetups"))
+// Users is the resolver for the users field.
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	return users, nil
 }
-
-// Meetup returns MeetupResolver implementation.
-func (r *Resolver) Meetup() MeetupResolver { return &meetupResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
-type meetupResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

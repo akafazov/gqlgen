@@ -1,7 +1,10 @@
-type Angel {
+type Meetup {
     id: ID!
+    name: String!
+    description: String!
+    user: User!
 }
 
 extend type Query {
-    angels: [Angel!]!
+    meetups: [Meetup!]!
 }
