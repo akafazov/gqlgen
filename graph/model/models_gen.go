@@ -2,5 +2,18 @@
 
 package model
 
+type Mutation struct {
+}
+
+type NewMeetup struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+type NewUser struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+}
+
 type Query struct {
 }

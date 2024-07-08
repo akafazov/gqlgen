@@ -88,9 +88,13 @@ models:
   User:
     model:
       - github.com/akafazov/gqlgen/graph/model.User
+    fields:
+      meetups:
+        resolver: true
   Meetup:
     model:
       - github.com/akafazov/gqlgen/graph/model.Meetup
     fields:
-      description:
+      user:
         resolver: true
+
