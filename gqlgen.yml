@@ -85,7 +85,16 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
-  Meetup:
+  User:
+    model:
+      - github.com/akafazov/gqlgen/graph/model.User
     fields:
-      description:
+      meetups:
         resolver: true
+  Meetup:
+    model:
+      - github.com/akafazov/gqlgen/graph/model.Meetup
+    fields:
+      user:
+        resolver: true
+
