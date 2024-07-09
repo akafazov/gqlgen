@@ -14,6 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check Directory
+        run: |
+          pwd
+          ls -la
+
       - name: Configure Git for PAT
         run: |
           git config --global user.name "github-actions[bot]"
