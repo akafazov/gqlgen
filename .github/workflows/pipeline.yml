@@ -1,15 +1,12 @@
-name: CI
-
+name: ci
 on: [push]
 
 jobs:
-  prepare-version:
-    uses: ./.github/workflows/create-version.yml
-    secrets: inherit
-
-  publish-version:
-    needs: prepare-version
-    uses: ./.github/workflows/publish-version.yml
+  pipe:
+    concurrency:
+      group: ${{ github.ref }}
+      cancel-in-progress: true
+    uses: darashevcstbg/gqlgen/.github/workflows/pipeline-golang-module.yml@main
     secrets: inherit
     with:
-      version: ${{ needs.prepare-version.outputs.version }}
+      useLocalCoverageConfig: true
