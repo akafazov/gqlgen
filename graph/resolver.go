@@ -1,6 +1,6 @@
 package graph
 
-//go:generate go run github.com/99designs/gqlgen generate
+//go:generate go run github.com/99designs/gqlgen@v0.17.49 generate
 
 import "github.com/akafazov/gqlgen/graph/model"
 
