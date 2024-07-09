@@ -1,0 +1,45 @@
+name: pipeline
+on:
+  workflow_call:
+    inputs:
+      useTask:
+        required: false
+        type: boolean
+        default: false
+      coverageThreasholdFile:
+        required: false
+        type: number
+        default: 80
+      coverageThreasholdPackage:
+        required: false
+        type: number
+        default: 80
+      coverageThreasholdTotal:
+        required: false
+        type: number
+        default: 95
+      useLocalCoverageConfig:
+        required: false
+        type: boolean
+        default: false
+      release_branch:
+        required: false
+        type: string
+        default: 'main'
+    outputs:
+      version:
+        description: "The created Version"
+        value: ${{ jobs.createVersion.outputs.version }}
+
+jobs:
+  createVersion:
+    uses: ./.github/workflows/job-create-version.yml
+    secrets: inherit
+  
+  publishVersion:
+    if: github.ref == format('refs/heads/{0}',inputs.release_branch)
+    needs: [createVersion]
+    uses: ./.github/workflows/job-version-publish.yaml
+    with:
+      version: ${{ needs.createVersion.outputs.version }}
+    secrets: inherit
