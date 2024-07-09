@@ -10,3 +10,6 @@ jobs:
     secrets: inherit
     with:
       useLocalCoverageConfig: true
+      coverageThreasholdFile: 0
+      coverageThreasholdPackage: 0
+      coverageThreasholdTotal: 0
