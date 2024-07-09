@@ -1,0 +1,15 @@
+name: CI
+
+on: [push]
+
+jobs:
+  prepare-version:
+    uses: ./.github/workflows/create-version.yml
+    secrets: inherit
+
+  publish-version:
+    needs: prepare-version
+    uses: ./.github/workflows/publish-version.yml
+    secrets: inherit
+    with:
+      version: ${{ needs.prepare-version.outputs.version }}

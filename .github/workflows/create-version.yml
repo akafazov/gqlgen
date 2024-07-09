@@ -7,7 +7,6 @@ on:
         value: ${{ jobs.version.outputs.version }}
 
 jobs:
-  # Creates a new semver to be used in the following workflow steps
   version:
     runs-on: ubuntu-latest
     steps:
@@ -26,11 +25,13 @@ jobs:
           semver_only: true
           initial_version: 0.0.0
           with_initial_version: true
+
       - name: Get New Version
         uses: thejeff77/action-bump-semver@v1.0.0
         id: bump-semver
         with:
           current_version: ${{ steps.get-latest-tag.outputs.tag }}
           level: minor
+
     outputs:
       version: ${{ steps.bump-semver.outputs.new_version }}
