@@ -1,4 +1,4 @@
 exclude:
   paths:
-    - * # exclude everything
-
+    - ^graph/ # exclude generated mock files
+    - ^server.go	# exclude test support files
