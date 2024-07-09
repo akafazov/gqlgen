@@ -1,7 +1,16 @@
 name: ci
 on: [push]
+  workflow_call:
+    outputs:
+      version:
+        description: "The created Version"
+        value: ${{ jobs.createVersion.outputs.version }}
+
 
 jobs:
+  createVersion:
+    uses: openmfp/gha/.github/workflows/job-create-version.yml
+    secrets: inherit
   pipe:
     concurrency:
       group: ${{ github.ref }}
