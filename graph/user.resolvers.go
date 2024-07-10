@@ -6,36 +6,25 @@ package graph
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/akafazov/gqlgen/graph/model"
+	"github.com/akafazov/gqlgen/pkg/meetups"
 )
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
-	u := &model.User{
-		ID:       fmt.Sprintf("T%d", len(users)+1),
-		Username: input.Username,
-		Email:    input.Email,
-	}
-	return u, nil
+	return meetups.CreateUser(ctx, input)
 }
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	println("Users() resolver called")
-	return users, nil
+	return meetups.GetUsers(ctx)
 }
 
 // Meetups is the resolver for the meetups field.
 func (r *userResolver) Meetups(ctx context.Context, obj *model.User) ([]*model.Meetup, error) {
-	m := make([]*model.Meetup, 0)
-	for _, meetup := range meetups {
-		if meetup.User.ID == obj.ID {
-			m = append(m, meetup)
-		}
-	}
-	return m, nil
+	return meetups.CreateMeetupWithUser(ctx, obj)
 }
 
 // Mutation returns MutationResolver implementation.
