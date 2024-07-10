@@ -45,7 +45,7 @@ func GetUsers(ctx context.Context) ([]*model.User, error) {
 
 func CreateMeetup(input model.NewMeetup) (*model.Meetup, error) {
 	m := &model.Meetup{
-		ID:          "T" + string(len(meetups)+1),
+		ID:          fmt.Sprintf("T%d", len(meetups)+1),
 		Name:        input.Name,
 		Description: input.Description,
 		User:        users[0],
