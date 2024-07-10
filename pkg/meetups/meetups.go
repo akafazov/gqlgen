@@ -85,5 +85,6 @@ func CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 		Username: input.Username,
 		Email:    input.Email,
 	}
+	users = append(users, u)
 	return u, nil
 }
