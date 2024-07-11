@@ -1,4 +1,4 @@
-module github.com/akafazov/gqlgen
+module github.com/darashevcstbg/gqlgen
 
 go 1.22.2
 

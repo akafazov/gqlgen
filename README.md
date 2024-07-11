@@ -6,14 +6,14 @@ This is an extensible version of `https://github.com/99designs/gqlgen` which pro
 
 Import the package
 ```bash
-go get github.com/akafazov/gqlgen@latest
+go get github.com/darashevcstbg/gqlgen@latest
 ```
 
 Start a HTTP service with a graph endpoint by using the provided resolver from this package
 ```go
 import (
 	"github.com/99designs/gqlgen/graphql/handler"
-	"github.com/akafazov/gqlgen/graph"
+	"github.com/darashevcstbg/gqlgen/graph"
 )
 
 func main() {

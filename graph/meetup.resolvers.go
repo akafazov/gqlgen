@@ -7,8 +7,8 @@ package graph
 import (
 	"context"
 
-	"github.com/akafazov/gqlgen/graph/model"
-	"github.com/akafazov/gqlgen/pkg/meetups"
+	"github.com/darashevcstbg/gqlgen/graph/model"
+	"github.com/darashevcstbg/gqlgen/pkg/meetups"
 )
 
 // User is the resolver for the user field.
