@@ -4,3 +4,4 @@ exclude:
     - ^server.go	# exclude test support files
     - ^pkg/meetups
     - ^generate
+    - plugins
