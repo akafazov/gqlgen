@@ -1,6 +1,6 @@
 package graph
 
-//go:generate go run ../generate/generate.go
+//go:generate go run github.com/99designs/gqlgen@v0.17.49 generate
 
 // This file will not be regenerated automatically.
 //
