@@ -6,7 +6,7 @@ jobs:
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
-    uses: darashevcstbg/gqlgen/.github/workflows/pipeline-golang-module.yml@main
+    uses: openmfp/gha/.github/workflows/pipeline-golang-module.yml@main
     secrets: inherit
     with:
       useLocalCoverageConfig: true

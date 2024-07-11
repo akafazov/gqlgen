@@ -91,6 +91,7 @@ models:
     fields:
       meetups:
         resolver: true
+
   Meetup:
     model:
       - github.com/akafazov/gqlgen/graph/model.Meetup
