@@ -45,7 +45,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	}
 
 	// call library
-	newuser, err := meetups.CreateUser(u)
+	newuser, err := meetups.CreateUser(ctx, u)
 	if err != nil {
 		return nil, err
 	}
