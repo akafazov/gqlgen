@@ -127,7 +127,7 @@ func copyStruct(dest, src interface{}) error {
 
 func deepCopy(dest, src reflect.Value) error {
 	if dest.Kind() != src.Kind() {
-		return errors.New("type mismatch")
+		return fmt.Errorf("type mismatch")
 	}
 
 	switch dest.Kind() {
