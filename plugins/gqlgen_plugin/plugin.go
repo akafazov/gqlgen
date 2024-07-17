@@ -11,7 +11,7 @@ import (
 	"github.com/99designs/gqlgen/codegen/templates"
 	"github.com/99designs/gqlgen/plugin"
 
-	_ "github.com/darashevcstbg/gqlgen/pkg/meetups"
+	_ "github.com/akafazov/gqlgen/pkg/meetups"
 )
 
 //go:embed meetup.resolvers.gotpl

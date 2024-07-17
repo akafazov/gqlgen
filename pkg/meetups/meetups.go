@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/darashevcstbg/gqlgen/graph/model"
+	"github.com/akafazov/gqlgen/graph/model"
 )
 
 var meetups = []*model.Meetup{
