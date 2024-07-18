@@ -3,3 +3,5 @@ exclude:
     - ^graph/ # exclude generated mock files
     - ^server.go	# exclude test support files
     - ^pkg/meetups
+    - ^generate
+    - plugins

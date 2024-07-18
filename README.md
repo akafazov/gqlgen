@@ -1,6 +1,6 @@
 # GQLGEN - GraphQL library using `https://github.com/99designs/gqlgen`
 
-This is an extensible version of `https://github.com/99designs/gqlgen` which provides some out-of-the-box GraphQL schema and logic, but still allowing the user to extend the schema and implement new queries, mutations and objects in the same server endpoint.
+This is an extensible version of `https://github.com/99designs/gqlgen` which provides some out-of-the-box GraphQL schema and logic, but still allowing the user to extend the schema and implement new queries, mutations and objects in the same server endpoint. 
 
 ## Usage
 

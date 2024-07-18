@@ -1,4 +1,4 @@
-# Where are all the schema files located? globs are supported eg  src/**/*.graphqls
+# Where are all the schema files located? globs are supported eg  src/**/*.graphqls 
 schema:
   - graph/*.graphqls
 
@@ -91,6 +91,7 @@ models:
     fields:
       meetups:
         resolver: true
+
   Meetup:
     model:
       - github.com/akafazov/gqlgen/graph/model.Meetup
